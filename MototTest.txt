@@ -1,0 +1,47 @@
+import lejos.hardware.lcd.LCD;
+import lejos.hardware.motor.EV3LargeRegulatedMotor;
+import lejos.hardware.motor.Motor;
+import lejos.hardware.port.MotorPort;
+import lejos.hardware.port.SensorPort;
+import lejos.hardware.sensor.EV3UltrasonicSensor;
+import lejos.hardware.sensor.SensorMode;
+import lejos.robotics.RegulatedMotor;
+import lejos.utility.Delay;
+import lejos.hardware.sensor.EV3ColorSensor;
+
+public class MotorTest {
+
+	
+	
+	public static void main(String[] args) {
+		
+		EV3UltrasonicSensor ultraSensor = new EV3UltrasonicSensor(SensorPort.S1);
+		SensorMode ultraMode = ultraSensor.getMode(1);
+		float[] ultraSample = new float[ultraSensor.sampleSize()];
+		RegulatedMotor motorA = new EV3LargeRegulatedMotor(MotorPort.A);
+		RegulatedMotor motorB = new EV3LargeRegulatedMotor(MotorPort.B);
+		RegulatedMotor motorC = new EV3LargeRegulatedMotor(MotorPort.C);
+		
+		//EV3ColorSensor colorSensor = new EV3ColorSensor(SensorPort.S2);
+		//SensorMode colorMode = colorSensor.getMode(1);
+		//float[] colorSample = new float[colorSensor.sampleSize()];
+		
+		while (true) {
+					
+			ultraSensor.fetchSample(ultraSample, 0);
+			LCD.drawString(Float.toString(ultraSample[0]), 0, 4);
+			while(ultraSample[0] > 0.01) {
+			
+				//motorA.backward();
+				motorB.backward();
+				//motorC.backward();
+				ultraSensor.fetchSample(ultraSample, 0);
+				LCD.drawString(Float.toString(ultraSample[0]), 0, 4);
+				
+			}
+			
+		}
+		
+	}
+	
+}

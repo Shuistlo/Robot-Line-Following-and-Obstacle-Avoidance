@@ -1,0 +1,30 @@
+package motor;
+
+import lejos.hardware.lcd.LCD;
+import lejos.hardware.motor.EV3LargeRegulatedMotor;
+import lejos.hardware.motor.Motor;
+import lejos.hardware.port.MotorPort;
+
+public class MotorTesting {
+	
+	EV3LargeRegulatedMotor motorA = new EV3LargeRegulatedMotor(MotorPort.A);
+	EV3LargeRegulatedMotor motorB = new EV3LargeRegulatedMotor(MotorPort.B);
+	EV3LargeRegulatedMotor motorC = new EV3LargeRegulatedMotor(MotorPort.C);
+	
+	public static void main(String[] args) {
+		
+		EV3LargeRegulatedMotor motorA = new EV3LargeRegulatedMotor(MotorPort.A);
+		EV3LargeRegulatedMotor motorB = new EV3LargeRegulatedMotor(MotorPort.B);
+		EV3LargeRegulatedMotor motorC = new EV3LargeRegulatedMotor(MotorPort.C);
+		
+		while(true) {
+			
+			motorA.backward();
+			motorB.backward();
+			motorC.backward();
+			
+		}
+		
+	}
+
+}
