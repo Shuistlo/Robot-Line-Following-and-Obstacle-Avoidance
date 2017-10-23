@@ -1,5 +1,6 @@
 # rgp
-If(blaxk)
-<\t> continue
+If(blaxk) <br />
+ - continue
 
-If(no black)
+If(no black) <br />
+
