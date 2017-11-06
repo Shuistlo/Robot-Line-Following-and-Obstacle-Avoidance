@@ -40,10 +40,35 @@ public class LineFollowingAttempt1 {
         /*
          * This while loop prints about 0-0.2 for black color and generally above 0.7 for a white surface
          */
-        while(true) {
+        /*while(true) {
         	
         	red.fetchSample(colorSample, 0);
         	System.out.println(colorSample[0]);
+        	
+        }*/
+        
+        while(true) {
+        	
+        	red.fetchSample(colorSample, 0);
+        	
+        	while(colorSample[0] < 0.3) {
+        		
+        		red.fetchSample(colorSample, 0);
+        		
+        		motorB.forward();
+        		motorC.forward();
+        		
+        		
+        	}
+        	
+        	while(colorSample[0] > 0.3) {
+        		
+        		red.fetchSample(colorSample, 0);
+        		
+        		motorB.rotate(60); 
+            		motorC.rotate(-60);
+        		
+        	}
         	
         }
         
@@ -77,4 +102,3 @@ public class LineFollowingAttempt1 {
 	}
 	
 }
-	
