@@ -1,18 +1,11 @@
-import lejos.hardware.lcd.LCD;
+import lejos.hardware.Brick;
+import lejos.hardware.BrickFinder;
 import lejos.hardware.motor.EV3LargeRegulatedMotor;
-import lejos.hardware.motor.Motor;
 import lejos.hardware.port.MotorPort;
 import lejos.hardware.port.Port;
 import lejos.hardware.port.SensorPort;
-import lejos.hardware.sensor.EV3UltrasonicSensor;
-import lejos.hardware.sensor.SensorMode;
-import lejos.robotics.Color;
-import lejos.robotics.RegulatedMotor;
-import lejos.utility.Delay;
 import lejos.hardware.sensor.EV3ColorSensor;
-import lejos.hardware.Brick;
-import lejos.hardware.BrickFinder;
-import lejos.hardware.Key;
+import lejos.hardware.sensor.SensorMode;
 
 /*
  * This will help me to determint which values are returned for black, and which are returned for white. This should allow me to write a program that
@@ -40,9 +33,23 @@ public class LineFollowingAttempt1 {
     	*/
 		
         Port s2 = brick.getPort("S2");
-        EV3ColorSensor sensor = new EV3ColorSensor(s2);
+        EV3ColorSensor sensor = new EV3ColorSensor(SensorPort.S2);
+        SensorMode red = sensor.getRedMode();
+        float[] colorSample = new float[red.sampleSize()];
         
-        while(sensor.getColorID() == 1){ //colour ID 0-7, 1 is black
+        /*
+         * This while loop prints about 0-0.2 for black color and generally above 0.7 for a white surface
+         */
+        while(true) {
+        	
+        	red.fetchSample(colorSample, 0);
+        	System.out.println(colorSample[0]);
+        	
+        }
+        
+        
+        //UNCOMMENT THIS
+       /*while(sensor.getColorID() == 1){ //colour ID 0-7, 1 is black
         	//going to need to use multithreading to run these two methods at the same time 
         	motorB.rotate(60); 
         	motorC.rotate(-60);
@@ -66,7 +73,8 @@ public class LineFollowingAttempt1 {
 
 		LineFollowingAttempt1 testThing = new LineFollowingAttempt1();
 
-
+　
 	}
 	
 }
+	
