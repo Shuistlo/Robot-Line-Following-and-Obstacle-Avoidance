@@ -38,14 +38,9 @@ public class PIDLineFollowing {
 	SampleProvider redMode = colorSensor.getRedMode();
 	float[] colorSample = new float[redMode.sampleSize()];
 
-		
-
-	//motors should run forewards while colorsensor continues to detect black
-
 	public static void main(String[] args) {
 
 		move();
-
 
 	}
 
@@ -68,7 +63,8 @@ public class PIDLineFollowing {
 
 
 	}
-
+	
+	//might be needed at some point
 	public void moveForward(RegulatedMotor motorA, RegulatedMotor motorB) {
 
 		motorA.forward();
