@@ -1,0 +1,86 @@
+if(steeringValue < 0) {
+
+				if(leftForward == true) {
+
+					leftMotor.setSpeed(leftSpeed - steeringValue);
+
+				} else {
+
+					if(leftSpeed + steeringValue < 0) {
+
+						leftMotor.setSpeed(Math.abs(leftSpeed + steeringValue));
+						leftMotor.forward();
+						
+						leftForward = true;
+
+					} else {
+
+						leftMotor.setSpeed(leftSpeed + steeringValue);
+
+					}
+
+				}
+
+				if(rightForward == false) {
+
+					rightMotor.setSpeed(rightSpeed - steeringValue);
+
+				} else {
+
+					if(rightSpeed + steeringValue < 0) {
+
+						rightMotor.setSpeed(Math.abs(rightSpeed - steeringValue));
+						rightMotor.backward();
+						rightForward = false;
+
+					} else {
+
+						rightMotor.setSpeed(rightSpeed + steeringValue);
+
+					}
+
+				}
+
+			} else {
+
+				if(rightForward == true) {
+
+					rightMotor.setSpeed(rightSpeed + steeringValue);
+
+				} else {
+
+					if(rightSpeed - steeringValue < 0) {
+
+						rightMotor.setSpeed(steeringValue - rightSpeed);
+						rightMotor.forward();
+						rightForward = true;
+
+					} else {
+
+						rightMotor.setSpeed(rightSpeed - steeringValue);
+
+					}
+
+				}
+
+				if(leftForward == false) {
+
+					leftMotor.setSpeed(leftSpeed + steeringValue);
+
+				} else {
+
+					if(leftSpeed - steeringValue < 0) {
+
+						leftMotor.setSpeed(steeringValue - leftSpeed);
+						leftMotor.backward();
+						leftForward = false;
+
+					} else {
+
+						leftMotor.setSpeed(leftSpeed - steeringValue);
+
+					}
+
+				}
+
+			}
