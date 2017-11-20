@@ -15,17 +15,24 @@ public class UltrasonicSensorTest {
 
 
     while(lastReading > 0.15 && lastReading <  0.2){ //logic for when the sensor first finds an obstacle
-        rightMotor.turn(60);
-        sensorMotor.turn(60);
+        rightMotor.rotate(60);
+        sensorMotor.rotate(60);
         sensorAngle = + sensorAngle + 60;
-        //move robot forward a few cm
+        rightMotor.rotate(60); //trying to move it forward
+        leftMotor.rotate(60);
         lastReading = ultraMode.fetchSample(ultrasonicSample, 0);
     }
-    while(lastReading is increasing){ //or until a black line is found
-        rightMotor.turn(60);
-        sensorAngle = + sensorAngle + 60;
-        //move robot forward a few cm
-        lastReading = ultraMode.fetchSample(ultrasonicSample, 0);
+    
+    double increasing = 1.0; //just a read for if the distance from the sensor is increasing or not
+    
+    while(lR2 > 0;){ //or until a black line is found
+        leftMotor.rotate(60); //the sensor should still be rotating in the same direction
+        sensorAngle = sensorAngle + 60;
+        rightMotor.rotate(60); //trying to move it forward
+        leftMotor.rotate(60);
+        double lR2 = ultraMode.fetchSample(ultrasonicSample, 0);
+        increasing = lr2 - lastReading;
+        lastReading = lr2;
     }
     //^ we keep track of the angle of the sensor so we can
     // 1. correct it when the obstacle has passed
