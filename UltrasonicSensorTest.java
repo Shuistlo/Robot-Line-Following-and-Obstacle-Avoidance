@@ -9,8 +9,13 @@ public class UltrasonicSensorTest {
     private SampleProvider ultraMode = ultraSensor.getDistanceMode();
     private float[] ultrasonicSample = new float[ultraMode.sampleSize()];
     
-    private boolean linePresent = false;
-    private int sensorAngle = 0;
+    private boolean linePresent;
+    private int sensorAngle;
+    
+    public UltrasonicSensorTest(){
+    	linePresent = false;
+    	sensorAngle = 0;
+    }
     
     //if we reach an obstacle less than 20 cm away, begin turning right
     float lastReading = ultraMode.fetchSample(ultrasonicSample, 0);
@@ -27,13 +32,14 @@ public class UltrasonicSensorTest {
     
     //we should now be half way past the obstacle
     
-    while(lastReading > 0.15 && lastReading <  0.2){ //logic for when the sensor first finds an obstacle
+    while((lastReading > 0.15 && lastReading <  0.2) && (!linePresent)){ //logic for when the sensor first finds an obstacle
         leftMotor.rotate(60);
         sensorMotor.rotate(60);
         sensorAngle = + sensorAngle + 60;
         rightMotor.rotate(60); //trying to move it forward
         leftMotor.rotate(60);
         lastReading = ultraMode.fetchSample(ultrasonicSample, 0);
+        //CHEDK IF THERS A LINE
     }
 
     //^ we keep track of the angle of the sensor so we can
