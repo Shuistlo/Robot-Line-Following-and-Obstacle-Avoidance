@@ -9,16 +9,16 @@ import lejos.hardware.sensor.EV3ColorSensor;
 import lejos.hardware.sensor.EV3UltrasonicSensor;
 import lejos.robotics.RegulatedMotor;
 import lejos.robotics.SampleProvider;
+import lejos.hardware.motor.UnregulatedMotor;
 import java.lang.Math;
-import lejos.nxt.NXTMotor;
 
 public class PIDLineFollowing3 {
 
 	//Initialising error, integral and derivative constants
 	//These will need to be adjusted appropriately
-	public static final double kp = 1.2;
-	public static final double ki =  0.0008;
-	public static final double kd = 5;
+	public static final double kp = 285;
+	public static final double ki = 1.5;
+	public static final double kd = 15;
 
 	//Upon testing the sensor on the actual track, 0.45 was the value the observed value of having the sensor detecting exactly half of the line.
 	public static final double target = 0.45;
@@ -26,9 +26,9 @@ public class PIDLineFollowing3 {
 	private double error = 0, integral = 0, last_error = 0, derivative;
 	private int steeringValue;
 
-	//Adjust motorports as necessary
-	NXTMotor leftMotor = new NXTMotor(MotorPort.A);
-	NXTMotor rightMotor = new NXTMotor(MotorPort.D); //PORT C IS BROKE AS FUCK
+	//Adjust as necessary
+	RegulatedMotor leftMotor = new EV3LargeRegulatedMotor(MotorPort.A);
+	RegulatedMotor rightMotor = new EV3LargeRegulatedMotor(MotorPort.D); //PORT C IS BROKE AS FUCK
 
 	//configure the colorSensor and it's redMode
    	EV3ColorSensor colorSensor = new EV3ColorSensor(SensorPort.S2);
@@ -52,28 +52,58 @@ public class PIDLineFollowing3 {
 		leftMotor.setSpeed(20);
 		rightMotor.forward();
 		leftMotor.forward();
-		
+
+		/*while(colorSample[0] < 0.8 && colorSample[0] > 0.67) {
+			
+			rightMotor.forward();
+			leftMotor.forward();
+			
+		}*/
 
 		while(true) {
 			
 			redMode.fetchSample(colorSample, 0);
+			System.out.println(colorSample[0]);
 			//implement PID control in order to get the appropriate steering value
 			error = (double) target - colorSample[0];
 			integral += error;	
 			derivative = error - last_error;
 			steeringValue = (int)((error * kp) + (integral * ki) + (derivative * kd));
 			
-			leftMotor.setSpeed(20 - steeringValue);
-			rightMotor.setSpeed(20 + steeringValue);
-
-
+			if(150 + steeringValue > 300) {
+				
+				leftMotor.setSpeed(300);
+				
+			} else {
+				
+				leftMotor.setSpeed(150 + steeringValue);
+				System.out.println("leftSpeed: " + leftMotor.getSpeed());
+				
+			}
+			
+			if(150 - steeringValue > 300) {
+				
+				rightMotor.setSpeed(300);
+				
+			} else {
+				
+				rightMotor.setSpeed(150 - steeringValue);
+				System.out.println("rightSpeed: " + rightMotor.getSpeed());
+				
+			}
+			
+			
+			
+			/*leftMotor.setSpeed(150 + steeringValue);
+			//System.out.println("leftSpeed: " + leftMotor.getSpeed());
+			rightMotor.setSpeed(150 - steeringValue);
+			//System.out.println("rightSpeed: " + rightMotor.getSpeed());*/
+			
+			
 			last_error = error;
 			
 		}
 
-
-　
 	}
 
 }
-
