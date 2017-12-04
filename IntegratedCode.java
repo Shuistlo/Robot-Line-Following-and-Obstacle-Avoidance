@@ -18,7 +18,6 @@ public class IntegratedCode {
 
 	//Upon testing the sensor on the actual track, 0.45 was the value the observed value of having the sensor detecting exactly half of the line.
 	public static final double target = 0.45;
-    private int sensorAngle;
 	private double error = 0, integral = 0, last_error = 0, derivative;
 	private int steeringValue;
 
@@ -39,7 +38,7 @@ public class IntegratedCode {
 
 	public static void main(String[] args) {
 
-		PIDLineFollowing3 test = new PIDLineFollowing3();
+		IntegratedCode test = new IntegratedCode();
 		test.move();
 
 	}
@@ -53,7 +52,6 @@ public class IntegratedCode {
 		leftMotor.setSpeed(20);
 		rightMotor.forward();
 		leftMotor.forward();
-    	sensorAngle = 0;
     	ultraMode.fetchSample(ultrasonicSample, 0);
 
 		/*while(colorSample[0] < 0.8 && colorSample[0] > 0.67) {
@@ -65,7 +63,7 @@ public class IntegratedCode {
 		
 		while(true) {
 		
-		while(ultrasonicSample[0] > 0.16) {
+		while(ultrasonicSample[0] > 0.2) {
 			
 			redMode.fetchSample(colorSample, 0);
 			ultraMode.fetchSample(ultrasonicSample, 0);
@@ -110,32 +108,48 @@ public class IntegratedCode {
 			
 		}
 		
-		while(ultrasonicSample[0] > 0 && ultrasonicSample[0] <  0.2){ //logic for when the sensor first finds an obstacle
-        	System.out.println("distance:"+ ultrasonicSample[0]);
-        	leftMotor.rotate(240);
-            sensorMotor.rotate(-60);
-            sensorAngle -= 60;
-            leftMotor.rotate(240); //trying to move it forward
-            rightMotor.rotate(240);
-            ultraMode.fetchSample(ultrasonicSample, 0);
-        }
-        
-        while((ultrasonicSample[0] > 0.09 && ultrasonicSample[0] <  0.15) && (colorSample[0] < 0.4)){ //logic for when the sensor first finds an obstacle
-        	System.out.println("distance:"+ ultrasonicSample[0]);
-        	rightMotor.rotate(240);
-            sensorMotor.rotate(-60);
-            sensorAngle -= 60;
-            leftMotor.rotate(240); //trying to move it forward
-            rightMotor.rotate(240);
-            ultraMode.fetchSample(ultrasonicSample, 0);
-            redMode.fetchSample(colorSample, 0);
-            //CHEDK IF THERS A LINE
-        }
-        
-        sensorMotor.rotate(-sensorAngle);
+		//make the robot rotate 45 degrees clockwise in place
+		rightMotor.rotate(-45);
+		leftMotor.rotate(45);
+
+		//perform synchronised movement forwards:
+		moveForwardABit(360);
+
+		//turn sensor until it detects the object again
+		sensorMotor.rotate(-60);
 		
+		while(ultrasonicSample[0] < 0.2) {
+			
+			while(colorSample[0] < 0.2) {
+								
+				redMode.fetchSample(colorSample, 0);
+				moveForwardABit(360);
+
+				while(ultrasonicSample[0] > 0.3) {
+				
+					ultraMode.fetchSample(ultrasonicSample, 0);
+					sensorMotor.rotate(-10);
+				
+				}
+
+			}
+			
 		}
 
+	}
+
+　
+	}
+	
+	private void moveForwardABit(int distance) {
+		
+		leftMotor.startSynchronization();
+		leftMotor.rotate(distance, true);
+		rightMotor.rotate(distance, true);
+		leftMotor.endSynchronization();
+		leftMotor.waitComplete();
+		rightMotor.waitComplete();
+		
 	}
 
 }
