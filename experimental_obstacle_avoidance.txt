@@ -3,9 +3,10 @@ synch.add(rightMotor);
 leftMotor.synchronizeWith(synch);
 
 if(ultraSample[0] < 0.2) {
-
-	leftMotor.setSpeed(0); rightMotor.setSpeed(0);
 	
+	
+	leftMotor.setSpeed(0); rightMotor.setSpeed(0);
+		
 	//make the robot rotate 45 degrees clockwise in place
 	rightMotor.rotate(-x);
 	leftMotor.rotate(x);
@@ -13,13 +14,15 @@ if(ultraSample[0] < 0.2) {
 	//perform synchronised movement forwards:
 	moveForwardABit(/*distance to be determined in testing*/);
 
-	//turn sensor until it detects the object again	
-
-}
-
-...
-
-private void moveForwardABit(int distance) {
+	//turn sensor until it detects the object again
+	while(ultrasonicSample[0] > 0.3) {
+	
+		ultraMode.fetchSample(ultrasonicSample, 0);
+		sensorMotor.rotate(-10);
+	
+	}
+	
+	while(colorSample[0] < 0.2) {private void moveForwardABit(int distance) {
 	
 	leftMotor.startSynchronization();
 	leftMotor.rotate(distance, true);
@@ -29,3 +32,20 @@ private void moveForwardABit(int distance) {
 	rightMotor.waitComplete();
 
 }
+						
+		redMode.fetchSample(colorSample, 0);
+		moveForwardABit(/*distance to be determined in testing*/);
+
+		while(ultraSample[0] > 0.3) {
+		
+			ultraMode.fetchSample(ultrasonicSample, 0);
+			sensorMotor.rotate(-10);
+		
+		}
+
+	}
+	
+
+
+}
+
