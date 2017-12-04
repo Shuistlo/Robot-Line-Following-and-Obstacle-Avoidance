@@ -1,0 +1,31 @@
+RegulatedMotor[] synch = new RegulatedMotor[1];
+synch.add(rightMotor);
+leftMotor.synchronizeWith(synch);
+
+if(ultraSample[0] < 0.2) {
+
+	leftMotor.setSpeed(0); rightMotor.setSpeed(0);
+	
+	//make the robot rotate 45 degrees clockwise in place
+	rightMotor.rotate(-x);
+	leftMotor.rotate(x);
+
+	//perform synchronised movement forwards:
+	moveForwardABit(/*distance to be determined in testing*/);
+
+	//turn sensor until it detects the object again	
+
+}
+
+...
+
+private void moveForwardABit(int distance) {
+	
+	leftMotor.startSynchronization();
+	leftMotor.rotate(distance, true);
+	rightMotor.rotate(distance, true);
+	leftMotor.endSynchronization();
+	leftMotor.waitComplete();
+	rightMotor.waitComplete();
+
+}
