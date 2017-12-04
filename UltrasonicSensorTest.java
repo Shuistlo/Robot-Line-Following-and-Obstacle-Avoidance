@@ -1,7 +1,14 @@
+import lejos.hardware.motor.EV3LargeRegulatedMotor;
+import lejos.hardware.port.MotorPort;
+import lejos.hardware.port.SensorPort;
+import lejos.hardware.sensor.EV3UltrasonicSensor;
+import lejos.robotics.RegulatedMotor;
+import lejos.robotics.SampleProvider;
+
 public class UltrasonicSensorTest {
 	
 	
-    private RegulatedMotor leftMotor = new EV3LargeRegulatedMotor(MotorPort.A);
+	RegulatedMotor leftMotor = new EV3LargeRegulatedMotor(MotorPort.A);
     private RegulatedMotor rightMotor = new EV3LargeRegulatedMotor(MotorPort.D); //PORT C IS BROKE AS FUCK
     private RegulatedMotor sensorMotor = new EV3LargeRegulatedMotor(MotorPort.B);
 
@@ -12,34 +19,33 @@ public class UltrasonicSensorTest {
     private boolean linePresent;
     private int sensorAngle;
     
-    public UltrasonicSensorTest(){
+    public UltrasonicSensorTest(/*redMode.fetchSample(colorSample, 0)*/){ //for the line
     	linePresent = false;
     	sensorAngle = 0;
-    }
-    
-    //if we reach an obstacle less than 20 cm away, begin turning right
-    float lastReading = ultraMode.fetchSample(ultrasonicSample, 0);
-
-
-    while(lastReading > 0.15 && lastReading <  0.2){ //logic for when the sensor first finds an obstacle
-        rightMotor.rotate(60);
-        sensorMotor.rotate(60);
-        sensorAngle = + sensorAngle + 60;
-        rightMotor.rotate(60); //trying to move it forward
-        leftMotor.rotate(60);
-        lastReading = ultraMode.fetchSample(ultrasonicSample, 0);
-    }
-    
-    //we should now be half way past the obstacle
-    
-    while((lastReading > 0.15 && lastReading <  0.2) && (!linePresent)){ //logic for when the sensor first finds an obstacle
-        leftMotor.rotate(60);
-        sensorMotor.rotate(60);
-        sensorAngle = + sensorAngle + 60;
-        rightMotor.rotate(60); //trying to move it forward
-        leftMotor.rotate(60);
-        lastReading = ultraMode.fetchSample(ultrasonicSample, 0);
-        //CHEDK IF THERS A LINE
+    	
+    	ultraMode.fetchSample(ultrasonicSample, 0);
+        while(ultrasonicSample[0] > 0.09 && ultrasonicSample[0] <  0.15){ //logic for when the sensor first finds an obstacle
+        	System.out.println("distance:"+ ultrasonicSample[0]);
+        	rightMotor.rotate(60);
+            sensorMotor.rotate(60);
+            sensorAngle = + sensorAngle + 60;
+            rightMotor.rotate(60); //trying to move it forward
+            leftMotor.rotate(60);
+            ultraMode.fetchSample(ultrasonicSample, 0);
+        }
+        
+        while((ultrasonicSample[0] > 0.09 && ultrasonicSample[0] <  0.15) && (!linePresent)){ //logic for when the sensor first finds an obstacle
+        	System.out.println("distance:"+ ultrasonicSample[0]);
+        	leftMotor.rotate(60);
+            sensorMotor.rotate(60);
+            sensorAngle = + sensorAngle + 60;
+            rightMotor.rotate(60); //trying to move it forward
+            leftMotor.rotate(60);
+            ultraMode.fetchSample(ultrasonicSample, 0);
+            //CHEDK IF THERS A LINE
+        }
+        
+        sensorMotor.rotate(-sensorAngle);  
     }
 
     //^ we keep track of the angle of the sensor so we can
@@ -48,7 +54,7 @@ public class UltrasonicSensorTest {
 
     //turn the sensor back to facing the front using the sensor angle
     //when a black line is found:
-    sensorMotor.rotate(-sensorAngle);                                               
+   // sensorMotor.rotate(-sensorAngle);                                               
     
 	//just see what might be used for the ultrasonic range
 	/*
