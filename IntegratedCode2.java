@@ -103,41 +103,29 @@ public class IntegratedCode2 {
 			
 			}
 			
+			rightMotor.stop(); leftMotor.stop();
 			rightMotor.rotate(-90);
 			leftMotor.rotate(90);
 			sensorMotor.rotate(-90);
-			rightMotor.setSpeed(obstBaseSpeed + obstTurnVal);
-			leftMotor.setSpeed(obstBaseSpeed - obstTurnVal);
-			rightMotor.forward();
-			leftMotor.forward();
+			obstTurnVal = k * (ultrasonicSample[0]);
+			rightMotor.setSpeed((int)(obstBaseSpeed + obstTurnVal));
+			leftMotor.setSpeed((int)(obstBaseSpeed + obstTurnVal));
+			rightMotor.forward(); leftMotor.forward();
 
 			while(colorSample[0] > 0.2) {
 
 				ultraMode.fetchSample(ultrasonicSample, 0);
 				redMode.fetchSample(colorSample, 0);
 				obstTurnVal = k * (ultrasonicSample[0]);
-				rightMotor.setSpeed(obstBaseSpeed + obstTurnVal);
-				leftMotor.setSpeed(obstBaseSpeed - obstTurnVal);
-				
-				
+				rightMotor.setSpeed((int)(obstBaseSpeed + obstTurnVal));
+				leftMotor.setSpeed((int)(obstBaseSpeed + obstTurnVal));				
 
 			}
 
-			sensorMotor.rotate(90);　			
+			sensorMotor.rotate(90);			
 		}
 
 　
-	}
-	
-	private void moveForwardABit(int distance) {
-		
-		leftMotor.startSynchronization();
-		leftMotor.rotate(distance, true);
-		rightMotor.rotate(distance, true);
-		leftMotor.endSynchronization();
-		leftMotor.waitComplete();
-		rightMotor.waitComplete();
-		
 	}
 
 }
