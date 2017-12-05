@@ -103,8 +103,8 @@ public class IntegratedCode2 {
 			
 			}
 			
-			rightMotor.rotate(90);
-			leftMotor.rotate(-90);
+			rightMotor.rotate(-90);
+			leftMotor.rotate(90);
 			sensorMotor.rotate(-90);
 			rightMotor.setSpeed(obstBaseSpeed + obstTurnVal);
 			leftMotor.setSpeed(obstBaseSpeed - obstTurnVal);
@@ -123,7 +123,7 @@ public class IntegratedCode2 {
 
 			}
 
-　
+			sensorMotor.rotate(90);　			
 		}
 
 　
