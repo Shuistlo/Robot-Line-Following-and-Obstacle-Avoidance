@@ -1,4 +1,3 @@
-package integrated_code;
 
 import lejos.hardware.motor.EV3LargeRegulatedMotor;
 import lejos.hardware.port.MotorPort;
@@ -107,17 +106,18 @@ public class IntegratedCode {
 			last_error = error;
 			
 		}
-		
-		//make the robot rotate 45 degrees clockwise in place
-		rightMotor.rotate(-45);
-		leftMotor.rotate(45);
-
-		//perform synchronised movement forwards:
-		moveForwardABit(360);
-
-		//turn sensor until it detects the object again
-		sensorMotor.rotate(-60);
-		
+		while(ultrasonicSample[0] < 0.2){
+			//make the robot rotate 45 degrees clockwise in place
+			rightMotor.rotate(-45);
+			leftMotor.rotate(45);
+	
+			//perform synchronised movement forwards:
+			moveForwardABit(360);
+	
+			//turn sensor until it detects the object again
+			sensorMotor.rotate(-90);
+			ultraMode.fetchSample(ultrasonicSample, 0);
+		}
 		while(ultrasonicSample[0] < 0.2) {
 			
 			while(colorSample[0] < 0.2) {
@@ -138,7 +138,7 @@ public class IntegratedCode {
 
 	}
 
-　
+
 	}
 	
 	private void moveForwardABit(int distance) {
