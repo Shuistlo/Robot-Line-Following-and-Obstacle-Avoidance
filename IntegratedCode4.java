@@ -21,7 +21,10 @@ public class IntegratedCode3 {
 	private double error = 0, integral = 0, last_error = 0, derivative;
 	private int steeringValue;
 	final double eq = 0.15;
-	final double k = 100;
+	final double p = 200;
+	final double i = 0.5;
+	final double d = 5;
+	private double e = 0, in = 0, l_e = 0, der = 0, last_e = 0;
 	double obstTurnVal = 0;
 
 	//Adjust as necessary
@@ -104,30 +107,33 @@ public class IntegratedCode3 {
 			}
 			
 			rightMotor.stop(); leftMotor.stop();
-			rightMotor.rotate(-115);
-			leftMotor.rotate(115);
+			rightMotor.rotate(-105);
+			leftMotor.rotate(105);
 			sensorMotor.rotate(-75);
-			obstTurnVal = k * (eq - ultrasonicSample[0]);
+			obstTurnVal = 0;
 			rightMotor.setSpeed((int)(obstBaseSpeed + obstTurnVal));
 			leftMotor.setSpeed((int)(obstBaseSpeed + obstTurnVal));
 			rightMotor.forward(); leftMotor.forward();
 
 			while(colorSample[0] > 0.2) {
-
+			
 				ultraMode.fetchSample(ultrasonicSample, 0);
 				redMode.fetchSample(colorSample, 0);
-				obstTurnVal = k * (eq - ultrasonicSample[0]);
-				rightMotor.setSpeed((int)(obstBaseSpeed - obstTurnVal));
-				leftMotor.setSpeed((int)(obstBaseSpeed + obstTurnVal));
+				e = eq - colorSample[0];
+				in += e;
+				der = e + last_e;
+				obstTurnVal = (int)((p * e) + (i * in) + (d * der));
 				
 				if (obstBaseSpeed - obstTurnVal > 300) {rightMotor.setSpeed(300);}
 				else {rightMotor.setSpeed((int)(obstBaseSpeed - obstTurnVal));}
 				if(obstBaseSpeed + obstTurnVal > 300) {leftMotor.setSpeed(300);}
 				else {leftMotor.setSpeed((int)(obstBaseSpeed + obstTurnVal));}
 				
+				last_e = e;
+				
 			}
 
-			sensorMotor.rotate(75);			
+			sensorMotor.rotate(75);	
 		}
 
 　
