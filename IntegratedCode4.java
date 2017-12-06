@@ -15,8 +15,8 @@ public class IntegratedCode4 {
 	//Initialising error, integral and derivative constants
 	//These will need to be adjusted appropriately
 	public static final double kp = 285;
-	public static final double ki = 0.25;
-	public static final double kd = 15;
+	public static final double ki = 0.00005;
+	public static final double kd = 20;
 
 	//Upon testing the sensor on the actual track, 0.45 was the value the observed value of having the sensor detecting exactly half of the line.
 	public static final double target = 0.45;
@@ -46,7 +46,7 @@ public class IntegratedCode4 {
 	public static void main(String[] args) {
 
 		IntegratedCode4 test = new IntegratedCode4();
-		test.move(150, 125);
+		test.move(175, 125);
 
 	}
 
@@ -142,7 +142,7 @@ public class IntegratedCode4 {
 			}
 			
 			rightMotor.stop(); leftMotor.stop();
-			sensorMotor.rotate(75);
+			sensorMotor.rotate(85);
 			Delay.msDelay(1000);
 			ultraMode.fetchSample(ultrasonicSample, 0);
 			rightMotor.rotate(-120);
