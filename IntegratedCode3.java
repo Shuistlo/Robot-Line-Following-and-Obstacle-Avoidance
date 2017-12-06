@@ -84,7 +84,7 @@ public class IntegratedCode3 {
 				} else {
 				
 					leftMotor.setSpeed(baseSpeed + steeringValue);
-					System.out.println("leftSpeed: " + leftMotor.getSpeed());
+					//System.out.println("leftSpeed: " + leftMotor.getSpeed());
 				
 				}
 			
@@ -95,7 +95,7 @@ public class IntegratedCode3 {
 				} else {
 				
 					rightMotor.setSpeed(baseSpeed - steeringValue);
-					System.out.println("rightSpeed: " + rightMotor.getSpeed());
+					//System.out.println("rightSpeed: " + rightMotor.getSpeed());
 				
 				}
 			
@@ -104,10 +104,10 @@ public class IntegratedCode3 {
 			}
 			
 			rightMotor.stop(); leftMotor.stop();
-			rightMotor.rotate(-90);
-			leftMotor.rotate(90);
-			sensorMotor.rotate(-90);
-			obstTurnVal = k * (ultrasonicSample[0]);
+			rightMotor.rotate(-115);
+			leftMotor.rotate(115);
+			sensorMotor.rotate(-75);
+			obstTurnVal = k * (eq - ultrasonicSample[0]);
 			rightMotor.setSpeed((int)(obstBaseSpeed + obstTurnVal));
 			leftMotor.setSpeed((int)(obstBaseSpeed + obstTurnVal));
 			rightMotor.forward(); leftMotor.forward();
@@ -116,13 +116,18 @@ public class IntegratedCode3 {
 
 				ultraMode.fetchSample(ultrasonicSample, 0);
 				redMode.fetchSample(colorSample, 0);
-				obstTurnVal = k * (ultrasonicSample[0]);
-				rightMotor.setSpeed((int)(obstBaseSpeed + obstTurnVal));
-				leftMotor.setSpeed((int)(obstBaseSpeed + obstTurnVal));				
-
+				obstTurnVal = k * (eq - ultrasonicSample[0]);
+				rightMotor.setSpeed((int)(obstBaseSpeed - obstTurnVal));
+				leftMotor.setSpeed((int)(obstBaseSpeed + obstTurnVal));
+				
+				if (obstBaseSpeed - obstTurnVal > 300) {rightMotor.setSpeed(300);}
+				else {rightMotor.setSpeed((int)(obstBaseSpeed - obstTurnVal));}
+				if(obstBaseSpeed + obstTurnVal > 300) {leftMotor.setSpeed(300);}
+				else {leftMotor.setSpeed((int)(obstBaseSpeed + obstTurnVal));}
+				
 			}
 
-			sensorMotor.rotate(90);			
+			sensorMotor.rotate(75);			
 		}
 
 　
