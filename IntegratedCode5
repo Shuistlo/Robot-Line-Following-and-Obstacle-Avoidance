@@ -1,4 +1,4 @@
-package integrated_code_4;
+package integrated_code_5;
 
 import lejos.hardware.motor.EV3LargeRegulatedMotor;
 import lejos.hardware.port.MotorPort;
@@ -10,7 +10,7 @@ import lejos.robotics.SampleProvider;
 import lejos.utility.Delay;
 
 　
-public class IntegratedCode4 {
+public class IntegratedCode5 {
 
 	//Initialising error, integral and derivative constants
 	//These will need to be adjusted appropriately
@@ -45,7 +45,7 @@ public class IntegratedCode4 {
 
 	public static void main(String[] args) {
 
-		IntegratedCode4 test = new IntegratedCode4();
+		IntegratedCode5 test = new IntegratedCode5();
 		test.move(175, 125);
 
 	}
