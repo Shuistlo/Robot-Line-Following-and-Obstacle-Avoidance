@@ -22,8 +22,8 @@ public class IntegratedCode5 {
 	public static final double target = 0.45;
 	private double error = 0, integral = 0, last_error = 0, derivative;
 	private int steeringValue;
-	final double eq = 0.075;
-	final double p = 200;
+	final double eq = 0.055;
+	final double p = 250;
 	final double d = 25;
 	private double e = 0, der = 0, last_e = 0;
 	double obstTurnVal = 0;
@@ -46,7 +46,7 @@ public class IntegratedCode5 {
 	public static void main(String[] args) {
 
 		IntegratedCode5 test = new IntegratedCode5();
-		test.move(175, 125);
+		test.move(175, 200);
 
 	}
 
@@ -73,7 +73,7 @@ public class IntegratedCode5 {
 			leftMotor.setSpeed(100); rightMotor.setSpeed(100);
 			leftMotor.forward(); rightMotor.forward();
 		
-			while(ultrasonicSample[0] > 0.075) {
+			while(ultrasonicSample[0] > 0.1) {
 				
 				redMode.fetchSample(colorSample, 0);
 				ultraMode.fetchSample(ultrasonicSample, 0);
@@ -113,20 +113,19 @@ public class IntegratedCode5 {
 			rightMotor.stop(); leftMotor.stop();
 			rightMotor.rotate(-130);
 			leftMotor.rotate(130);
-			sensorMotor.rotate(-85);
+			sensorMotor.rotate(-90);
 			obstTurnVal = 0;
-			//rightMotor.setSpeed((int)(obstBaseSpeed + obstTurnVal));
-			//leftMotor.setSpeed((int)(obstBaseSpeed + obstTurnVal));
 			rightMotor.forward(); leftMotor.forward();
 
-			while(colorSample[0] > 0.2) {
+			while(colorSample[0] > 0.12) {
 			
 				ultraMode.fetchSample(ultrasonicSample, 0);
 				redMode.fetchSample(colorSample, 0);
+				//System.out.println(colorSample[0]);
 				e = eq - ultrasonicSample[0];
 				der = e + last_e;
 				obstTurnVal = (int)((p * e) + (d * der));
-				System.out.println(ultrasonicSample[0]);
+				System.out.println(colorSample[0]);
 				
 				if(ultrasonicSample[0] < 0.2) {
 				
@@ -135,47 +134,76 @@ public class IntegratedCode5 {
 					if(obstBaseSpeed + obstTurnVal > 300) {leftMotor.setSpeed(300);}
 					else {leftMotor.setSpeed((int)(obstBaseSpeed + obstTurnVal));}
 					
-				} else {rightMotor.setSpeed(100); leftMotor.setSpeed(50);}
+				} else {rightMotor.setSpeed(150); leftMotor.setSpeed(75);}
 				
 				last_e = e;
 				
 			}
 			
 			rightMotor.stop(); leftMotor.stop();
-			sensorMotor.rotate(85);
+			sensorMotor.rotate(90);
 			Delay.msDelay(1000);
 			ultraMode.fetchSample(ultrasonicSample, 0);
-			moveForwardABit(360);
-      rotateInPlace();
+			redMode.fetchSample(colorSample, 0);
+			rightMotor.setSpeed(100); leftMotor.setSpeed(100);
+			/*rightMotor.rotate(-100);
+			leftMotor.rotate(180);
 			
+			//System.out.println(colorSample[0]);
+			if(colorSample[0] > 0.3) {turn();}
+			//moveForwardABit(120);*/
+			rightMotor.rotate(-170);
+			redMode.fetchSample(colorSample, 0);
+			while(colorSample[0] > 0.1) {
+				
+				redMode.fetchSample(colorSample, 0);
+				leftMotor.forward();
+				rightMotor.forward();
+				
+			}
 			
+			rightMotor.rotate(-90);
+			redMode.fetchSample(colorSample, 0);
 			
+			while(colorSample[0] > 0.1) {
+				
+				redMode.fetchSample(colorSample, 0);
+				leftMotor.forward();
+				rightMotor.forward();
+				
+			}
+						
 		}
 
 　
 	}
   
-  private void moveForwardABit(int distance) {
+  private void moveForwardABit() {
 		
+	  	leftMotor.setSpeed(100);
+		rightMotor.setSpeed(100);
 		leftMotor.startSynchronization();
-		leftMotor.rotate(distance, true);
-		rightMotor.rotate(distance, true);
+		leftMotor.rotate(60); rightMotor.rotate(60);
+		//leftMotor.rotate(distance, true);
+		//rightMotor.rotate(distance, true);
 		leftMotor.endSynchronization();
-		leftMotor.waitComplete();
+		leftMotor.waitComplete();		
 		rightMotor.waitComplete();
 		
 	}
 	
-	private void turnInPlace() {
+	private void turn() {
 		
-		leftMotor.setSpeed(100);
-		rightMotor.setSpeed(100);
-		leftMotor.startSynchronization();
-		leftMotor.rotate(125, true);
-		rightMotor.rotate(125, true);
-		leftMotor.endSynchronization();
-		leftMotor.waitComplete();
-		rightMotor.waitComplete();
+		redMode.fetchSample(colorSample, 0);
+		leftMotor.setSpeed(0);
+		rightMotor.setSpeed(200);
+
+		while(colorSample[0] > 0.075) {
+			
+			redMode.fetchSample(colorSample, 0);
+			rightMotor.forward();
+			
+		}
 		
 	}
 
