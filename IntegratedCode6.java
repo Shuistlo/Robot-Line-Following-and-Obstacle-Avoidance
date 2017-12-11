@@ -163,11 +163,26 @@ public class IntegratedCode6 {
 			}
 			
 			rightMotor.stop(); leftMotor.stop();
-			moveBackABit(-120);
-			rightMotor.rotate(-95);
+			moveBackABit(-100);
+			rightMotor.rotate(-75);
 			redMode.fetchSample(colorSample, 0);
-			leftMotor.setSpeed(25);
-			rightMotor.setSpeed(50);
+			leftMotor.setSpeed(100);
+			rightMotor.setSpeed(75);
+			redMode.fetchSample(colorSample, 0);
+			while(colorSample[0] > 0.1) {
+				
+				redMode.fetchSample(colorSample, 0);
+				leftMotor.forward();
+				rightMotor.forward();
+				
+			}
+			
+			rightMotor.stop(); leftMotor.stop();
+			moveBackABit(-100);
+			rightMotor.rotate(-75);
+			redMode.fetchSample(colorSample, 0);
+			leftMotor.setSpeed(100);
+			rightMotor.setSpeed(85);
 			redMode.fetchSample(colorSample, 0);
 			while(colorSample[0] > 0.1) {
 				
