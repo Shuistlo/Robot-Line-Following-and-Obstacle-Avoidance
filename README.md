@@ -1,11 +1,2 @@
 # rgp
-If(blaxk) <br />
- - continue
-
-If(no black) <br />
-- look left (turn right wheel 60 degrees) <br />
-- if(black) continue <br />
-
-If(no black) <br /> 
-- look right( turn right wheel counterclockwise 120) <br />
--if(black) continue
+The task was to design and program a robot that utilized PID line following and obstacle avoidance to navigate a track that contained one obstacle. All code was written in Java and the robot was built using a Lego EV3 kit
